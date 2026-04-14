@@ -2,6 +2,8 @@ import { FORMATS, SCOPES, FORMAT_LABELS, SCOPE_LABELS, getFormatLabel, getScopeL
 import type { Format, Scope, Settings } from '../../lib/types';
 import { loadSettings, saveSettings } from '../../lib/storage';
 import { DEFAULT_SETTINGS } from '../../lib/types';
+import { formatTabs } from '../../lib/formatters';
+import { getTabQuery, filterTabs, type TabData } from '../../lib/tab_scopes';
 
 const SHORTCUTS: { command: string; labelKey: string; defaultKey: string }[] = [
   { command: 'copy-current', labelKey: 'shortcutCopyCurrent', defaultKey: 'Alt+Shift+C' },
@@ -44,27 +46,32 @@ async function handleCopy(): Promise<void> {
   const status = document.getElementById('copy-status')!;
 
   copyBtn.disabled = true;
+  status.style.color = '#3fb950';
 
   try {
-    const response = await browser.runtime.sendMessage({
-      type: 'copyWithSettings',
-      settings: currentSettings,
-    });
+    const query = getTabQuery(currentSettings.defaultScope);
+    const tabs = await browser.tabs.query(query) as TabData[];
+    const tabInfos = filterTabs(tabs, currentSettings.defaultScope, currentSettings.includePinned);
 
-    if (response?.success) {
-      copyBtn.classList.add('copied');
-      copyBtn.textContent = browser.i18n.getMessage('copyButtonDone') || 'Copied!';
-      status.textContent = `${response.count} ${browser.i18n.getMessage('tabsCopied') || 'tabs copied'}`;
-
-      setTimeout(() => {
-        copyBtn.classList.remove('copied');
-        copyBtn.textContent = browser.i18n.getMessage('copyButton') || 'Copy Now';
-        status.textContent = '';
-      }, 2000);
-    } else {
-      status.textContent = response?.error || 'Failed';
-      status.style.color = '#f85149';
+    if (tabInfos.length === 0) {
+      status.textContent = browser.i18n.getMessage('noTabs') || 'No tabs found';
+      status.style.color = '#d29922';
+      return;
     }
+
+    const text = formatTabs(currentSettings.defaultFormat, tabInfos);
+    // Write directly in popup context - has document + user gesture + clipboardWrite
+    await navigator.clipboard.writeText(text);
+
+    copyBtn.classList.add('copied');
+    copyBtn.textContent = browser.i18n.getMessage('copyButtonDone') || 'Copied!';
+    status.textContent = `${tabInfos.length} ${browser.i18n.getMessage('tabsCopied') || 'tabs copied'}`;
+
+    setTimeout(() => {
+      copyBtn.classList.remove('copied');
+      copyBtn.textContent = browser.i18n.getMessage('copyButton') || 'Copy Now';
+      status.textContent = '';
+    }, 2000);
   } catch (err) {
     status.textContent = String(err);
     status.style.color = '#f85149';
