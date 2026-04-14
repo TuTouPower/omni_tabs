@@ -20,11 +20,57 @@ async function init(): Promise<void> {
   document.getElementById('label-shortcuts')!.textContent = browser.i18n.getMessage('shortcutsTitle') || 'Shortcuts';
   document.getElementById('hint-shortcuts')!.textContent = browser.i18n.getMessage('shortcutsHint') || 'Customize in browser extension settings';
 
+  // Copy button
+  const copyBtn = document.getElementById('copy-btn')! as HTMLButtonElement;
+  copyBtn.textContent = browser.i18n.getMessage('copyButton') || 'Copy Now';
+  copyBtn.addEventListener('click', handleCopy);
+
+  // Configure shortcuts button
+  const configBtn = document.getElementById('configure-shortcuts-btn')!;
+  configBtn.textContent = browser.i18n.getMessage('configureShortcuts') || 'Configure Shortcuts';
+  configBtn.addEventListener('click', () => {
+    browser.tabs.create({ url: 'chrome://extensions/shortcuts' });
+  });
+
   currentSettings = await loadSettings();
   renderFormatChips();
   renderScopeSelect();
   renderPinnedToggle();
   renderShortcuts();
+}
+
+async function handleCopy(): Promise<void> {
+  const copyBtn = document.getElementById('copy-btn')! as HTMLButtonElement;
+  const status = document.getElementById('copy-status')!;
+
+  copyBtn.disabled = true;
+
+  try {
+    const response = await browser.runtime.sendMessage({
+      type: 'copyWithSettings',
+      settings: currentSettings,
+    });
+
+    if (response?.success) {
+      copyBtn.classList.add('copied');
+      copyBtn.textContent = browser.i18n.getMessage('copyButtonDone') || 'Copied!';
+      status.textContent = `${response.count} ${browser.i18n.getMessage('tabsCopied') || 'tabs copied'}`;
+
+      setTimeout(() => {
+        copyBtn.classList.remove('copied');
+        copyBtn.textContent = browser.i18n.getMessage('copyButton') || 'Copy Now';
+        status.textContent = '';
+      }, 2000);
+    } else {
+      status.textContent = response?.error || 'Failed';
+      status.style.color = '#f85149';
+    }
+  } catch (err) {
+    status.textContent = String(err);
+    status.style.color = '#f85149';
+  } finally {
+    copyBtn.disabled = false;
+  }
 }
 
 function renderFormatChips(): void {

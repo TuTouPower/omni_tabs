@@ -12,14 +12,14 @@ function setBadge(text: string): void {
   }, 3000);
 }
 
-async function copyTabs(format: Format, scope: Scope, settings: Settings): Promise<void> {
+async function copyTabs(format: Format, scope: Scope, settings: Settings): Promise<number> {
   const query = getTabQuery(scope);
   const tabs = await browser.tabs.query(query) as TabData[];
   const tabInfos = filterTabs(tabs, scope, settings.includePinned);
 
   if (tabInfos.length === 0) {
     setBadge('0');
-    return;
+    return 0;
   }
 
   const text = formatTabs(format, tabInfos);
@@ -27,8 +27,10 @@ async function copyTabs(format: Format, scope: Scope, settings: Settings): Promi
   try {
     await writeToClipboard(text);
     setBadge(String(tabInfos.length));
+    return tabInfos.length;
   } catch {
     setBadge('!');
+    throw new Error('Clipboard write failed');
   }
 }
 
@@ -90,9 +92,22 @@ function handleCommands(): void {
   });
 }
 
+function handleMessages(): void {
+  browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+    if (message.type === 'copyWithSettings') {
+      const settings = message.settings as Settings;
+      copyTabs(settings.defaultFormat, settings.defaultScope, settings)
+        .then((count) => sendResponse({ success: true, count }))
+        .catch((err) => sendResponse({ success: false, error: String(err) }));
+      return true;
+    }
+  });
+}
+
 export default defineBackground(() => {
   browser.action.setBadgeBackgroundColor({ color: '#1f6feb' });
   registerContextMenus();
   handleContextMenuClick();
   handleCommands();
+  handleMessages();
 });

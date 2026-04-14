@@ -91,5 +91,17 @@
   },
   "cmdCopyAllWindows": {
     "message": "使用默认格式复制所有窗口标签页"
+  },
+  "copyButton": {
+    "message": "立即复制"
+  },
+  "copyButtonDone": {
+    "message": "已复制！"
+  },
+  "tabsCopied": {
+    "message": "个标签页已复制"
+  },
+  "configureShortcuts": {
+    "message": "配置快捷键"
   }
 }

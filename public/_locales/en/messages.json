@@ -91,5 +91,17 @@
   },
   "cmdCopyAllWindows": {
     "message": "Copy all windows tabs with default format"
+  },
+  "copyButton": {
+    "message": "Copy Now"
+  },
+  "copyButtonDone": {
+    "message": "Copied!"
+  },
+  "tabsCopied": {
+    "message": "tabs copied"
+  },
+  "configureShortcuts": {
+    "message": "Configure Shortcuts"
   }
 }
