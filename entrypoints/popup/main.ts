@@ -1,17 +1,25 @@
-import { FORMATS, SCOPES, FORMAT_LABELS, SCOPE_LABELS } from '../../lib/types';
+import { FORMATS, SCOPES, FORMAT_LABELS, SCOPE_LABELS, getFormatLabel, getScopeLabel } from '../../lib/types';
 import type { Format, Scope, Settings } from '../../lib/types';
 import { loadSettings, saveSettings } from '../../lib/storage';
 import { DEFAULT_SETTINGS } from '../../lib/types';
 
-const SHORTCUTS: { command: string; label: string; defaultKey: string }[] = [
-  { command: 'copy-current', label: 'Copy Current Tab', defaultKey: 'Alt+Shift+C' },
-  { command: 'copy-window', label: 'Copy Current Window', defaultKey: 'Alt+Shift+A' },
-  { command: 'copy-all-windows', label: 'Copy All Windows', defaultKey: 'Alt+Shift+W' },
+const SHORTCUTS: { command: string; labelKey: string; defaultKey: string }[] = [
+  { command: 'copy-current', labelKey: 'shortcutCopyCurrent', defaultKey: 'Alt+Shift+C' },
+  { command: 'copy-window', labelKey: 'shortcutCopyWindow', defaultKey: 'Alt+Shift+A' },
+  { command: 'copy-all-windows', labelKey: 'shortcutCopyAllWindows', defaultKey: 'Alt+Shift+W' },
 ];
 
 let currentSettings: Settings = { ...DEFAULT_SETTINGS };
 
 async function init(): Promise<void> {
+  document.getElementById('subtitle')!.textContent = browser.i18n.getMessage('popupSubtitle') || 'Smart Tab Copier';
+  document.getElementById('label-format')!.textContent = browser.i18n.getMessage('settingDefaultFormat') || 'Default Format';
+  document.getElementById('label-scope')!.textContent = browser.i18n.getMessage('settingDefaultScope') || 'Default Scope';
+  document.getElementById('label-pinned')!.textContent = browser.i18n.getMessage('settingIncludePinned') || 'Include Pinned Tabs';
+  document.getElementById('desc-pinned')!.textContent = browser.i18n.getMessage('settingIncludePinnedDesc') || 'Default: exclude pinned tabs';
+  document.getElementById('label-shortcuts')!.textContent = browser.i18n.getMessage('shortcutsTitle') || 'Shortcuts';
+  document.getElementById('hint-shortcuts')!.textContent = browser.i18n.getMessage('shortcutsHint') || 'Customize in browser extension settings';
+
   currentSettings = await loadSettings();
   renderFormatChips();
   renderScopeSelect();
@@ -26,7 +34,7 @@ function renderFormatChips(): void {
   for (const format of FORMATS) {
     const chip = document.createElement('span');
     chip.className = 'chip' + (format === currentSettings.defaultFormat ? ' active' : '');
-    chip.textContent = FORMAT_LABELS[format];
+    chip.textContent = getFormatLabel(format);
     chip.addEventListener('click', () => {
       currentSettings.defaultFormat = format;
       saveSettings(currentSettings);
@@ -43,7 +51,7 @@ function renderScopeSelect(): void {
   for (const scope of SCOPES) {
     const option = document.createElement('option');
     option.value = scope;
-    option.textContent = SCOPE_LABELS[scope];
+    option.textContent = getScopeLabel(scope);
     if (scope === currentSettings.defaultScope) option.selected = true;
     select.appendChild(option);
   }
@@ -71,7 +79,7 @@ function renderShortcuts(): void {
   for (const s of SHORTCUTS) {
     const row = document.createElement('div');
     row.className = 'shortcut-row';
-    row.innerHTML = `<span>${s.label}</span><kbd>${s.defaultKey}</kbd>`;
+    row.innerHTML = `<span>${browser.i18n.getMessage(s.labelKey) || s.labelKey}</span><kbd>${s.defaultKey}</kbd>`;
     list.appendChild(row);
   }
 }

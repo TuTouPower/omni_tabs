@@ -1,4 +1,4 @@
-import { FORMATS, SCOPES, FORMAT_LABELS, SCOPE_LABELS, parseMenuId, buildMenuId } from '../lib/types';
+import { FORMATS, SCOPES, FORMAT_LABELS, SCOPE_LABELS, parseMenuId, buildMenuId, getFormatLabel, getScopeLabel } from '../lib/types';
 import type { Format, Scope, Settings } from '../lib/types';
 import { formatTabs } from '../lib/formatters';
 import { getTabQuery, filterTabs, type TabData } from '../lib/tab_scopes';
@@ -37,7 +37,7 @@ function registerContextMenus(): void {
     // Root menu
     browser.contextMenus.create({
       id: 'tabscopy',
-      title: 'TabsCopy',
+      title: browser.i18n.getMessage('menuRootLabel') || 'TabsCopy',
       contexts: ['page'],
     });
 
@@ -46,7 +46,7 @@ function registerContextMenus(): void {
       const formatId = `tabscopy_${format}`;
       browser.contextMenus.create({
         id: formatId,
-        title: FORMAT_LABELS[format],
+        title: getFormatLabel(format),
         parentId: 'tabscopy',
         contexts: ['page'],
       });
@@ -55,7 +55,7 @@ function registerContextMenus(): void {
       for (const scope of SCOPES) {
         browser.contextMenus.create({
           id: buildMenuId(format, scope),
-          title: SCOPE_LABELS[scope],
+          title: getScopeLabel(scope),
           parentId: formatId,
           contexts: ['page'],
         });

@@ -61,6 +61,16 @@ export const DEFAULT_SETTINGS: Settings = {
   includePinned: false,
 };
 
+/** Get i18n label for a format, falling back to FORMAT_LABELS. */
+export function getFormatLabel(format: Format): string {
+  return browser.i18n.getMessage(`fmt_${format}`) || FORMAT_LABELS[format];
+}
+
+/** Get i18n label for a scope, falling back to SCOPE_LABELS. */
+export function getScopeLabel(scope: Scope): string {
+  return browser.i18n.getMessage(`scope_${scope}`) || SCOPE_LABELS[scope];
+}
+
 /** Parse a 3rd-level menu ID like "tabscopy_markdown_current" into format + scope. */
 export function parseMenuId(
   id: string,

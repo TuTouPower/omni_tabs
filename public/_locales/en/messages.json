@@ -1,0 +1,95 @@
+{
+  "extensionName": {
+    "message": "TabsCopy"
+  },
+  "extensionDescription": {
+    "message": "Copy tab information to clipboard in various formats"
+  },
+  "menuRootLabel": {
+    "message": "TabsCopy"
+  },
+  "fmt_url": {
+    "message": "URL"
+  },
+  "fmt_title_url_colon": {
+    "message": "Title: URL"
+  },
+  "fmt_title_url_newline": {
+    "message": "Title & URL"
+  },
+  "fmt_title": {
+    "message": "Title"
+  },
+  "fmt_markdown": {
+    "message": "Markdown"
+  },
+  "fmt_csv": {
+    "message": "CSV"
+  },
+  "fmt_json": {
+    "message": "JSON"
+  },
+  "fmt_html": {
+    "message": "HTML"
+  },
+  "fmt_html_table": {
+    "message": "HTML Table"
+  },
+  "scope_current": {
+    "message": "Current Tab"
+  },
+  "scope_window": {
+    "message": "Current Window"
+  },
+  "scope_all_windows": {
+    "message": "All Windows"
+  },
+  "scope_left": {
+    "message": "Tabs to the Left"
+  },
+  "scope_right": {
+    "message": "Tabs to the Right"
+  },
+  "scope_except_current": {
+    "message": "Except Current Tab"
+  },
+  "popupSubtitle": {
+    "message": "Smart Tab Copier"
+  },
+  "settingDefaultFormat": {
+    "message": "Default Format"
+  },
+  "settingDefaultScope": {
+    "message": "Default Scope"
+  },
+  "settingIncludePinned": {
+    "message": "Include Pinned Tabs"
+  },
+  "settingIncludePinnedDesc": {
+    "message": "Default: exclude pinned tabs"
+  },
+  "shortcutsTitle": {
+    "message": "Shortcuts"
+  },
+  "shortcutCopyCurrent": {
+    "message": "Copy Current Tab"
+  },
+  "shortcutCopyWindow": {
+    "message": "Copy Current Window"
+  },
+  "shortcutCopyAllWindows": {
+    "message": "Copy All Windows"
+  },
+  "shortcutsHint": {
+    "message": "Customize in browser extension settings"
+  },
+  "cmdCopyCurrent": {
+    "message": "Copy current tab with default format"
+  },
+  "cmdCopyWindow": {
+    "message": "Copy current window tabs with default format"
+  },
+  "cmdCopyAllWindows": {
+    "message": "Copy all windows tabs with default format"
+  }
+}
