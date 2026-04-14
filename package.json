@@ -21,6 +21,7 @@
     "wxt": "^0.20.22"
   },
   "devDependencies": {
+    "canvas": "^3.2.3",
     "typescript": "^6.0.2",
     "vitest": "^4.1.4"
   }
