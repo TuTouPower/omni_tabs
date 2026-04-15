@@ -7,7 +7,7 @@ export default defineConfig({
     name: '__MSG_extensionName__',
     description: '__MSG_extensionDescription__',
     default_locale: 'en',
-    permissions: ['contextMenus', 'tabs', 'clipboardWrite', 'storage', 'commands', 'scripting'],
+    permissions: ['contextMenus', 'tabs', 'clipboardWrite', 'storage', 'commands', 'scripting', 'offscreen'],
     commands: {
       'copy-current': {
         suggested_key: { default: 'Alt+Shift+C' },

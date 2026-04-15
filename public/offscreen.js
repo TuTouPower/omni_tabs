@@ -1,13 +1,22 @@
-// Offscreen document for clipboard access in MV3 service worker
-// The background service worker cannot access clipboard directly,
-// so it delegates to this offscreen document via messaging.
+// Offscreen document for clipboard access in MV3 service worker.
+// Uses textarea + execCommand('copy') which works without document focus,
+// unlike navigator.clipboard.writeText which requires focus.
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
-  if (msg.type === 'write-clipboard') {
-    navigator.clipboard.writeText(msg.text).then(() => {
-      sendResponse({ success: true });
-    }).catch((err) => {
-      sendResponse({ success: false, error: err.message });
-    });
-    return true; // keep channel open for async response
-  }
+    if (msg.target !== 'offscreen' || msg.type !== 'write-clipboard') {
+        return;
+    }
+    try {
+        const textarea = document.getElementById('clipboard-textarea');
+        textarea.value = msg.text;
+        textarea.select();
+        const ok = document.execCommand('copy');
+        if (ok) {
+            sendResponse({ success: true });
+        } else {
+            sendResponse({ success: false, error: 'execCommand returned false' });
+        }
+    } catch (err) {
+        sendResponse({ success: false, error: String(err) });
+    }
+    return true;
 });
