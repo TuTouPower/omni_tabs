@@ -45,40 +45,21 @@ wxt.config.ts          — WXT 配置 (权限、命令、manifest)
 
 ## 🔄 交接状态 (Session Handover) — 2026-04-15
 
-**1. 核心目标** — 浏览器扩展 TabsCopy 开发完成，修复右键菜单剪贴板复制失败问题。
+**1. 核心目标** — 修复右键菜单剪贴板复制失败（Popup 按钮一直可用）。
 
-**2. 已完成**
-- 完整扩展功能: 9种格式 × 6种范围、右键菜单、快捷键、Popup 设置面板、Badge 反馈、中英文 i18n
-- 41 个单元测试全部通过，Chrome MV3 构建成功
-- Popup "立即复制"按钮**已可用**（直接 `navigator.clipboard.writeText`，有 document 上下文 + 用户手势）
-- 剪贴板方案经历 4 轮迭代:
-  - v1: `navigator.clipboard.writeText` 在 service worker 中失败
-  - v2: `scripting.executeScript` + `document.execCommand('copy')` 返回 false
-  - v3: Offscreen Document API（缺少 `offscreen` 权限，未生效）
-  - v4: 当前版本（`lib/clipboard.ts`）— 三级 fallback: 直接 clipboard API → 注入 `navigator.clipboard.writeText` 到 http 页面 → Offscreen Document
+**2. 已完成**（commit `03a40eb`）
+- `public/offscreen.js` 改用 `textarea + document.execCommand('copy')`，不再用 `navigator.clipboard.writeText`（后者在无焦点的 offscreen document 中会失败）
+- `public/offscreen.html` 添加 `<textarea id="clipboard-textarea">` 承载复制内容
+- `lib/clipboard.ts` 重写：Service Worker 分支优先走 Offscreen Document，注入 `navigator.clipboard.writeText` 作为兜底；消息加 `target: 'offscreen'` 标识；失败时聚合各分支错误信息抛出
+- 构建通过（`npx wxt build`）
 
-**3. 卡点**
-- **右键菜单复制仍然失败**，Popup 按钮复制正常
-- 最后一次修改将注入方式从 `document.execCommand('copy')` 改为 `navigator.clipboard.writeText()`（注入到 http/https 标签页），**用户尚未测试此版本**
-- 需确认 `navigator.clipboard.writeText()` 在 content script 中是否受 `clipboardWrite` 权限支持
-- 如果仍失败，备选方案:
-  - 检查 offscreen document 是否正确创建（添加调试日志）
-  - 尝试 `world: 'MAIN'` 注入
-  - 参考 Chrome 官方 offscreen document 示例排查消息传递
+**3. 卡点** — 用户尚未测试新版本，等待验证右键菜单复制是否成功。
 
 **4. 下一步**
-1. 让用户重新加载扩展，测试右键复制（当前 v4 注入 `navigator.clipboard.writeText` 方案）
-2. 若仍失败，在 `lib/clipboard.ts` 各 fallback 分支添加具体错误信息定位失败点（如 `"Method 2 failed: <error>"` 而非统一 `"Clipboard write failed"`）
-3. 根据定位结果针对性修复，优先确保 offscreen document 方案走通
+1. 让用户重新加载扩展，测试网页右键 → TabsCopy → 任一格式/范围，验证复制结果
+2. 若失败，查看 service worker console 的具体错误（现在会显示 `createDocument/sendMessage/injection` 各步错误）针对性定位
+3. 成功后可考虑精简 clipboard.ts 的 injection 兜底路径（如确认 offscreen 稳定）
 
 **5. 上下文索引**
-- 必读代码:
-  - `lib/clipboard.ts` — 剪贴板写入核心（当前卡点所在）
-  - `entrypoints/background.ts` — 右键菜单/快捷键调用 `copyTabs()` → `writeToClipboard()`
-  - `entrypoints/popup/main.ts` — Popup 复制按钮（直接 clipboard API，已可用）
-  - `public/offscreen.js` + `public/offscreen.html` — Offscreen document fallback
-  - `wxt.config.ts` — 权限配置（含 `offscreen` + `clipboardWrite` + `scripting`）
-- 必读文档:
-  - 见本文件"项目结构"和"功能"章节
-  - 设计文档: `docs/superpowers/specs/2026-04-15-tabscopy-design.md`
-  - 实现计划: `docs/superpowers/plans/2026-04-15-tabscopy.md`
+- 必读代码：`lib/clipboard.ts`、`public/offscreen.js`、`public/offscreen.html`、`entrypoints/background.ts`、`wxt.config.ts`
+- 必读文档：见本文件"项目结构"、"功能"章节；设计 `docs/superpowers/specs/2026-04-15-tabscopy-design.md`
