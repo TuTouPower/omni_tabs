@@ -1,17 +1,24 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "types": ["wxt/browser"]
-  },
-  "include": ["lib/**/*.ts", "entrypoints/**/*.ts", "tests/**/*.ts"],
-  "exclude": ["node_modules", ".output"]
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "useUnknownInCatchVariables": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "types": ["wxt/browser"]
+    },
+    "include": ["lib/**/*.ts", "entrypoints/**/*.ts", "tests/**/*.ts", ".wxt/**/*.d.ts", "*.ts"],
+    "exclude": ["node_modules", ".output"]
 }

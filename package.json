@@ -1,28 +1,43 @@
 {
-  "name": "tabs_copy",
-  "version": "1.0.0",
-  "description": "Copy tab information to clipboard in various formats",
-  "private": true,
-  "scripts": {
-    "dev": "wxt",
-    "dev:firefox": "wxt --browser firefox",
-    "build": "wxt build",
-    "build:firefox": "wxt build --browser firefox",
-    "build:edge": "wxt build --browser edge",
-    "zip": "wxt zip",
-    "zip:firefox": "wxt zip --browser firefox",
-    "test": "vitest run",
-    "test:watch": "vitest"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "wxt": "^0.20.22"
-  },
-  "devDependencies": {
-    "canvas": "^3.2.3",
-    "typescript": "^6.0.2",
-    "vitest": "^4.1.4"
-  }
+    "name": "tabs_copy",
+    "version": "1.0.0",
+    "description": "Copy tab information to clipboard in various formats",
+    "private": true,
+    "scripts": {
+        "dev": "wxt",
+        "dev:firefox": "wxt --browser firefox",
+        "build": "wxt build",
+        "build:firefox": "wxt build --browser firefox",
+        "build:edge": "wxt build --browser edge",
+        "zip": "wxt zip",
+        "zip:firefox": "wxt zip --browser firefox",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "typecheck": "tsc --noEmit --pretty false",
+        "lint": "eslint . --max-warnings=0",
+        "format": "biome format --write .",
+        "format:check": "biome check .",
+        "deadcode": "knip",
+        "test:coverage": "vitest run --coverage",
+        "deps:check": "npm audit --audit-level=high",
+        "security": "npm run deps:check && gitleaks detect --no-banner --redact",
+        "quality": "npm run typecheck && npm run lint && npm run format:check && npm run deadcode && npm run test:coverage && npm run security && npm run build"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "wxt": "^0.20.22"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^2.4.15",
+        "@eslint/js": "^10.0.1",
+        "@vitest/coverage-v8": "^4.1.6",
+        "eslint": "^10.3.0",
+        "globals": "^17.6.0",
+        "knip": "^6.13.1",
+        "typescript": "^6.0.2",
+        "typescript-eslint": "^8.59.3",
+        "vitest": "^4.1.4"
+    }
 }

@@ -28,16 +28,12 @@ export function getTabQuery(scope: Scope): Record<string, unknown> {
 
 function toTabInfo(tab: TabData): TabInfo {
     return {
-        title: tab.title || 'Untitled',
-        url: tab.url || tab.pendingUrl || '',
+        title: (tab.title !== '' ? tab.title : undefined) ?? 'Untitled',
+        url: tab.url ?? tab.pendingUrl ?? '',
     };
 }
 
-export function filterTabs(
-    tabs: TabData[],
-    scope: Scope,
-    includePinned: boolean,
-): TabInfo[] {
+export function filterTabs(tabs: TabData[], scope: Scope, includePinned: boolean): TabInfo[] {
     let filtered = [...tabs];
 
     switch (scope) {
