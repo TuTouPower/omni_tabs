@@ -1,0 +1,8 @@
+{
+    "$schema": "https://unpkg.com/knip@latest/schema.json",
+    "entry": ["wxt.config.ts", "entrypoints/**/*.ts", "tests/**/*.ts", "public/**/*.js"],
+    "project": ["lib/**/*.ts", "entrypoints/**/*.ts", "tests/**/*.ts", "public/**/*.js", "*.ts"],
+    "ignore": [".output/**", ".wxt/**"],
+    "ignoreDependencies": ["wxt"],
+    "ignoreBinaries": ["gitleaks"]
+}

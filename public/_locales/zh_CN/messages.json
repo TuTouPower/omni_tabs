@@ -1,107 +1,110 @@
 {
-  "extensionName": {
-    "message": "TabsCopy"
-  },
-  "extensionDescription": {
-    "message": "以多种格式复制标签页信息到剪贴板"
-  },
-  "menuRootLabel": {
-    "message": "TabsCopy"
-  },
-  "fmt_url": {
-    "message": "URL"
-  },
-  "fmt_title_url_colon": {
-    "message": "标题: URL"
-  },
-  "fmt_title_url_newline": {
-    "message": "标题和 URL"
-  },
-  "fmt_title": {
-    "message": "标题"
-  },
-  "fmt_markdown": {
-    "message": "Markdown"
-  },
-  "fmt_csv": {
-    "message": "CSV"
-  },
-  "fmt_json": {
-    "message": "JSON"
-  },
-  "fmt_html": {
-    "message": "HTML"
-  },
-  "fmt_html_table": {
-    "message": "HTML 表格"
-  },
-  "scope_current": {
-    "message": "仅当前标签页"
-  },
-  "scope_window": {
-    "message": "当前窗口全部"
-  },
-  "scope_all_windows": {
-    "message": "所有窗口全部"
-  },
-  "scope_left": {
-    "message": "左侧标签页"
-  },
-  "scope_right": {
-    "message": "右侧标签页"
-  },
-  "scope_except_current": {
-    "message": "除当前外全部"
-  },
-  "popupSubtitle": {
-    "message": "智能标签页复制"
-  },
-  "settingDefaultFormat": {
-    "message": "默认格式"
-  },
-  "settingDefaultScope": {
-    "message": "默认范围"
-  },
-  "settingIncludePinned": {
-    "message": "包含固定标签页"
-  },
-  "settingIncludePinnedDesc": {
-    "message": "默认排除固定标签页"
-  },
-  "shortcutsTitle": {
-    "message": "快捷键"
-  },
-  "shortcutCopyCurrent": {
-    "message": "复制当前标签页"
-  },
-  "shortcutCopyWindow": {
-    "message": "复制当前窗口"
-  },
-  "shortcutCopyAllWindows": {
-    "message": "复制所有窗口"
-  },
-  "shortcutsHint": {
-    "message": "在浏览器扩展设置中自定义"
-  },
-  "cmdCopyCurrent": {
-    "message": "使用默认格式复制当前标签页"
-  },
-  "cmdCopyWindow": {
-    "message": "使用默认格式复制当前窗口标签页"
-  },
-  "cmdCopyAllWindows": {
-    "message": "使用默认格式复制所有窗口标签页"
-  },
-  "copyButton": {
-    "message": "立即复制"
-  },
-  "copyButtonDone": {
-    "message": "已复制！"
-  },
-  "tabsCopied": {
-    "message": "个标签页已复制"
-  },
-  "configureShortcuts": {
-    "message": "配置快捷键"
-  }
+    "extensionName": {
+        "message": "TabsCopy"
+    },
+    "extensionDescription": {
+        "message": "以多种格式复制标签页信息到剪贴板"
+    },
+    "menuRootLabel": {
+        "message": "TabsCopy"
+    },
+    "fmt_url": {
+        "message": "URL"
+    },
+    "fmt_title_url_colon": {
+        "message": "标题: URL"
+    },
+    "fmt_title_url_newline": {
+        "message": "标题和 URL"
+    },
+    "fmt_title": {
+        "message": "标题"
+    },
+    "fmt_markdown": {
+        "message": "Markdown"
+    },
+    "fmt_csv": {
+        "message": "CSV"
+    },
+    "fmt_json": {
+        "message": "JSON"
+    },
+    "fmt_html": {
+        "message": "HTML"
+    },
+    "fmt_html_table": {
+        "message": "HTML 表格"
+    },
+    "scope_current": {
+        "message": "仅当前标签页"
+    },
+    "scope_window": {
+        "message": "当前窗口全部"
+    },
+    "scope_all_windows": {
+        "message": "所有窗口全部"
+    },
+    "scope_left": {
+        "message": "左侧标签页"
+    },
+    "scope_right": {
+        "message": "右侧标签页"
+    },
+    "scope_except_current": {
+        "message": "除当前外全部"
+    },
+    "popupSubtitle": {
+        "message": "智能标签页复制"
+    },
+    "settingDefaultFormat": {
+        "message": "默认格式"
+    },
+    "settingDefaultScope": {
+        "message": "默认范围"
+    },
+    "settingIncludePinned": {
+        "message": "包含固定标签页"
+    },
+    "settingIncludePinnedDesc": {
+        "message": "默认排除固定标签页"
+    },
+    "shortcutsTitle": {
+        "message": "快捷键"
+    },
+    "shortcutCopyCurrent": {
+        "message": "复制当前标签页"
+    },
+    "shortcutCopyWindow": {
+        "message": "复制当前窗口"
+    },
+    "shortcutCopyAllWindows": {
+        "message": "复制所有窗口"
+    },
+    "shortcutsHint": {
+        "message": "在浏览器扩展设置中自定义"
+    },
+    "cmdCopyCurrent": {
+        "message": "使用默认格式复制当前标签页"
+    },
+    "cmdCopyWindow": {
+        "message": "使用默认格式复制当前窗口标签页"
+    },
+    "cmdCopyAllWindows": {
+        "message": "使用默认格式复制所有窗口标签页"
+    },
+    "copyButton": {
+        "message": "立即复制"
+    },
+    "copyButtonDone": {
+        "message": "已复制！"
+    },
+    "tabsCopied": {
+        "message": "个标签页已复制"
+    },
+    "configureShortcuts": {
+        "message": "配置快捷键"
+    },
+    "noTabs": {
+        "message": "未找到标签页"
+    }
 }

@@ -1,4 +1,4 @@
-import type { Settings, Format, Scope } from './types';
+import type { Format, Scope, Settings } from './types';
 import { DEFAULT_SETTINGS } from './types';
 
 const STORAGE_KEY = 'tabscopy_settings';
@@ -8,9 +8,16 @@ export async function loadSettings(): Promise<Settings> {
     const stored = result[STORAGE_KEY] as Record<string, unknown> | undefined;
     if (!stored) return { ...DEFAULT_SETTINGS };
     return {
-        defaultFormat: (stored.defaultFormat as Format) ?? DEFAULT_SETTINGS.defaultFormat,
-        defaultScope: (stored.defaultScope as Scope) ?? DEFAULT_SETTINGS.defaultScope,
-        includePinned: (stored.includePinned as boolean) ?? DEFAULT_SETTINGS.includePinned,
+        defaultFormat: (typeof stored.defaultFormat === 'string'
+            ? stored.defaultFormat
+            : DEFAULT_SETTINGS.defaultFormat) as Format,
+        defaultScope: (typeof stored.defaultScope === 'string'
+            ? stored.defaultScope
+            : DEFAULT_SETTINGS.defaultScope) as Scope,
+        includePinned:
+            typeof stored.includePinned === 'boolean'
+                ? stored.includePinned
+                : DEFAULT_SETTINGS.includePinned,
     };
 }
 
