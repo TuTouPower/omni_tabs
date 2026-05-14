@@ -6,6 +6,7 @@
 
 :root,
 :root[data-theme="dark"] {
+    color-scheme: dark light;
     --bg-primary: #1c1c1c;
     --bg-secondary: #21262d;
     --bg-tertiary: #30363d;
@@ -27,6 +28,7 @@
 }
 
 :root[data-theme="light"] {
+    color-scheme: light;
     --bg-primary: #ffffff;
     --bg-secondary: #f6f8fa;
     --bg-tertiary: #e1e4e8;
@@ -83,6 +85,7 @@ body {
 html {
     border-radius: 12px;
     overflow: hidden;
+    background: var(--bg-primary);
 }
 
 .container {
