@@ -14,12 +14,67 @@ const SHORTCUTS: {
     { command: 'copy-all-windows', labelKey: 'shortcutCopyAllWindows', defaultKey: 'Alt+Shift+W' },
 ];
 
+type ThemeMode = 'system' | 'light' | 'dark';
+
+const THEME_CYCLE: ThemeMode[] = ['system', 'light', 'dark'];
+
 let currentSettings: Settings = { ...DEFAULT_SETTINGS };
 
 function getElement(id: string): HTMLElement {
     const el = document.getElementById(id);
     if (!el) throw new Error(`Missing element: #${id}`);
     return el;
+}
+
+function applyTheme(mode: ThemeMode): void {
+    const root = document.documentElement;
+    root.removeAttribute('data-theme');
+    if (mode === 'light') {
+        root.setAttribute('data-theme', 'light');
+    } else if (mode === 'dark') {
+        root.setAttribute('data-theme', 'dark');
+    }
+    // 'system' → no attribute, CSS media query handles it
+
+    const dots = document.querySelectorAll<HTMLElement>('.theme-btn');
+    for (const dot of dots) {
+        dot.classList.toggle('active', dot.dataset.theme === mode);
+    }
+}
+
+async function loadTheme(): Promise<ThemeMode> {
+    const stored = await browser.storage.sync.get('themeMode');
+    const val = stored.themeMode;
+    if (val === 'light' || val === 'dark') return val;
+    return 'system';
+}
+
+async function saveTheme(mode: ThemeMode): Promise<void> {
+    await browser.storage.sync.set({ themeMode: mode });
+}
+
+function initThemeToggle(): void {
+    const toggle = getElement('theme-toggle');
+
+    void loadTheme().then((mode) => {
+        applyTheme(mode);
+
+        toggle.addEventListener('click', () => {
+            void loadTheme().then((current) => {
+                const idx = THEME_CYCLE.indexOf(current);
+                const next = THEME_CYCLE[(idx + 1) % THEME_CYCLE.length] ?? 'system';
+                applyTheme(next);
+                void saveTheme(next);
+            });
+        });
+    });
+
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        void loadTheme().then((mode) => {
+            if (mode === 'system') applyTheme('system');
+        });
+    });
 }
 
 async function init(): Promise<void> {
@@ -31,12 +86,8 @@ async function init(): Promise<void> {
         browser.i18n.getMessage('settingDefaultScope') || 'Default Scope';
     getElement('label-pinned').textContent =
         browser.i18n.getMessage('settingIncludePinned') || 'Include Pinned Tabs';
-    getElement('desc-pinned').textContent =
-        browser.i18n.getMessage('settingIncludePinnedDesc') || 'Default: exclude pinned tabs';
     getElement('label-shortcuts').textContent =
         browser.i18n.getMessage('shortcutsTitle') || 'Shortcuts';
-    getElement('hint-shortcuts').textContent =
-        browser.i18n.getMessage('shortcutsHint') || 'Customize in browser extension settings';
 
     // Copy button
     const copyBtn = getElement('copy-btn') as HTMLButtonElement;
@@ -57,6 +108,7 @@ async function init(): Promise<void> {
     renderScopeSelect();
     renderPinnedToggle();
     renderShortcuts();
+    initThemeToggle();
 }
 
 async function handleCopy(): Promise<void> {
@@ -64,7 +116,7 @@ async function handleCopy(): Promise<void> {
     const status = getElement('copy-status');
 
     copyBtn.disabled = true;
-    status.style.color = '#3fb950';
+    status.classList.remove('status-warning', 'status-error');
 
     try {
         const query = getTabQuery(currentSettings.defaultScope);
@@ -77,7 +129,7 @@ async function handleCopy(): Promise<void> {
 
         if (tabInfos.length === 0) {
             status.textContent = browser.i18n.getMessage('noTabs') || 'No tabs found';
-            status.style.color = '#d29922';
+            status.classList.add('status-warning');
             return;
         }
 
@@ -92,10 +144,11 @@ async function handleCopy(): Promise<void> {
             copyBtn.classList.remove('copied');
             copyBtn.textContent = browser.i18n.getMessage('copyButton') || 'Copy Now';
             status.textContent = '';
+            status.classList.remove('status-warning', 'status-error');
         }, 2000);
     } catch (err: unknown) {
         status.textContent = String(err);
-        status.style.color = '#f85149';
+        status.classList.add('status-error');
     } finally {
         copyBtn.disabled = false;
     }

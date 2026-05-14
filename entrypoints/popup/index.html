@@ -10,6 +10,11 @@
     <header>
       <h1>TabsCopy</h1>
       <p class="subtitle" id="subtitle"></p>
+      <div class="theme-toggle" id="theme-toggle">
+        <button class="theme-btn" data-theme="system" title="Follow system" type="button"></button>
+        <button class="theme-btn" data-theme="light" title="Light" type="button"></button>
+        <button class="theme-btn" data-theme="dark" title="Dark" type="button"></button>
+      </div>
     </header>
 
     <section class="copy-section">
@@ -31,7 +36,6 @@
       <div class="toggle-row">
         <div>
           <div class="toggle-label" id="label-pinned"></div>
-          <div class="toggle-desc" id="desc-pinned"></div>
         </div>
         <label class="toggle">
           <input type="checkbox" id="pinned-toggle">
@@ -43,7 +47,6 @@
     <footer>
       <label class="setting-label" id="label-shortcuts"></label>
       <div id="shortcuts-list" class="shortcuts-list"></div>
-      <p class="shortcuts-hint" id="hint-shortcuts"></p>
       <div class="shortcuts-actions">
         <button id="configure-shortcuts-btn" class="configure-btn" type="button"></button>
       </div>
