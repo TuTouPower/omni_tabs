@@ -1,36 +1,18 @@
-interface ResizeMessage {
-    type: 'tabscopy-resize';
-    height: number;
-}
-
-interface CloseMessage {
-    type: 'tabscopy-close';
-}
-
-type PanelMessage = ResizeMessage | CloseMessage;
+import {
+    clamp_height,
+    is_panel_message,
+    PANEL_OFFSET,
+    PANEL_WIDTH,
+    PANEL_Z_INDEX,
+} from '../lib/panel_iframe';
 
 const EXTENSION_ORIGIN = browser.runtime.getURL('/').slice(0, -1);
-const PANEL_WIDTH = 320;
-const PANEL_OFFSET = 12;
-const PANEL_Z_INDEX = 2147483647;
 
 let panel: HTMLDivElement | null = null;
 let iframe: HTMLIFrameElement | null = null;
 let remove_click_listener: (() => void) | null = null;
 let remove_key_listener: (() => void) | null = null;
 let remove_message_listener: (() => void) | null = null;
-
-function clamp_height(height: number): number {
-    return Math.max(0, Math.min(height, window.innerHeight - PANEL_OFFSET * 2));
-}
-
-function is_panel_message(data: unknown): data is PanelMessage {
-    if (!data || typeof data !== 'object') return false;
-
-    const message = data as { type?: unknown; height?: unknown };
-    if (message.type === 'tabscopy-close') return true;
-    return message.type === 'tabscopy-resize' && typeof message.height === 'number';
-}
 
 function remove_panel(): void {
     remove_click_listener?.();
@@ -82,7 +64,7 @@ function attach_message_listener(): void {
             return;
         }
 
-        iframe.style.height = `${String(clamp_height(event.data.height))}px`;
+        iframe.style.height = `${String(clamp_height(event.data.height, window.innerHeight))}px`;
     };
 
     window.addEventListener('message', message_handler);
