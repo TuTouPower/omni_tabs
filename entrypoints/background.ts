@@ -156,6 +156,21 @@ async function notify_panel_failure(): Promise<void> {
     }, 3000);
 }
 
+async function send_toggle_panel_message(
+    tab_id: number,
+    message: TogglePanelMessage,
+): Promise<void> {
+    try {
+        await browser.tabs.sendMessage(tab_id, message);
+    } catch {
+        await browser.scripting.executeScript({
+            target: { tabId: tab_id },
+            files: ['/content-scripts/content.js'],
+        });
+        await browser.tabs.sendMessage(tab_id, message);
+    }
+}
+
 function handle_action_click(): void {
     browser.action.onClicked.addListener((tab) => {
         void (async () => {
@@ -164,7 +179,7 @@ function handle_action_click(): void {
             if (is_restricted_url(tab.url) || tab.id === undefined) return;
 
             const message: TogglePanelMessage = { type: 'tabscopy-toggle-panel' };
-            await browser.tabs.sendMessage(tab.id, message);
+            await send_toggle_panel_message(tab.id, message);
         })().catch(() => {
             void notify_panel_failure();
         });
