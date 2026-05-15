@@ -78,14 +78,19 @@ body {
     background: var(--bg-primary);
     color: var(--text-secondary);
     font-size: 13px;
-    border-radius: 12px;
-    overflow: hidden;
 }
 
 html {
-    border-radius: 12px;
-    overflow: hidden;
     background: var(--bg-primary);
+}
+
+html[data-embedded="true"] {
+    overflow: hidden;
+}
+
+html[data-embedded="true"] body {
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
 }
 
 .container {
