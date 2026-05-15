@@ -20,6 +20,50 @@ const THEME_CYCLE: ThemeMode[] = ['system', 'light', 'dark'];
 
 let currentSettings: Settings = { ...DEFAULT_SETTINGS };
 
+interface EmbeddedResizeMessage {
+    type: 'tabscopy-resize';
+    height: number;
+}
+
+interface EmbeddedCloseMessage {
+    type: 'tabscopy-close';
+}
+
+function is_embedded_popup(): boolean {
+    return window.parent !== window;
+}
+
+function setup_embedded_mode(): void {
+    if (!is_embedded_popup()) return;
+
+    document.documentElement.dataset.embedded = 'true';
+
+    let animation_frame = 0;
+    const report_height = (): void => {
+        if (animation_frame) return;
+
+        animation_frame = requestAnimationFrame(() => {
+            animation_frame = 0;
+            const message: EmbeddedResizeMessage = {
+                type: 'tabscopy-resize',
+                height: document.body.scrollHeight,
+            };
+            window.parent.postMessage(message, '*');
+        });
+    };
+
+    const observer = new ResizeObserver(report_height);
+    observer.observe(document.body);
+    report_height();
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+
+        const message: EmbeddedCloseMessage = { type: 'tabscopy-close' };
+        window.parent.postMessage(message, '*');
+    });
+}
+
 function getElement(id: string): HTMLElement {
     const el = document.getElementById(id);
     if (!el) throw new Error(`Missing element: #${id}`);
@@ -212,5 +256,6 @@ function renderShortcuts(): void {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    setup_embedded_mode();
     void init();
 });

@@ -16,6 +16,12 @@ export default defineConfig({
             'scripting',
             'offscreen',
         ],
+        web_accessible_resources: [
+            {
+                resources: ['popup.html', 'chunks/popup-*.js', 'assets/popup-*.css'],
+                matches: ['<all_urls>'],
+            },
+        ],
         commands: {
             'copy-current': {
                 suggested_key: { default: 'Alt+Shift+C' },

@@ -11,12 +11,37 @@ import {
     parseMenuId,
     SCOPES,
 } from '../lib/types';
+import { is_restricted_url } from '../lib/url_rules';
+
+interface TogglePanelMessage {
+    type: 'tabscopy-toggle-panel';
+}
 
 function setBadge(text: string): void {
     void browser.action.setBadgeText({ text });
     setTimeout(() => {
         void browser.action.setBadgeText({ text: '' });
     }, 3000);
+}
+
+async function get_active_tab(): Promise<Browser.tabs.Tab | undefined> {
+    const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
+    return tab;
+}
+
+async function sync_popup_state(tab: Browser.tabs.Tab | undefined): Promise<void> {
+    const popup = is_restricted_url(tab?.url) ? 'popup.html' : '';
+
+    if (tab?.id === undefined) {
+        await browser.action.setPopup({ popup });
+        return;
+    }
+
+    await browser.action.setPopup({ tabId: tab.id, popup });
+}
+
+async function sync_active_popup_state(): Promise<void> {
+    await sync_popup_state(await get_active_tab());
 }
 
 async function copyTabs(format: Format, scope: Scope, settings: Settings): Promise<number> {
@@ -124,10 +149,62 @@ function handleMessages(): void {
     );
 }
 
+async function notify_panel_failure(): Promise<void> {
+    await browser.action.setBadgeText({ text: '!' });
+    setTimeout(() => {
+        void browser.action.setBadgeText({ text: '' });
+    }, 3000);
+}
+
+function handle_action_click(): void {
+    browser.action.onClicked.addListener((tab) => {
+        void (async () => {
+            await sync_popup_state(tab);
+
+            if (is_restricted_url(tab.url) || tab.id === undefined) return;
+
+            const message: TogglePanelMessage = { type: 'tabscopy-toggle-panel' };
+            await browser.tabs.sendMessage(tab.id, message);
+        })().catch(() => {
+            void notify_panel_failure();
+        });
+    });
+}
+
+function handle_popup_state_sync(): void {
+    browser.tabs.onActivated.addListener(({ tabId }) => {
+        void browser.tabs
+            .get(tabId)
+            .then(sync_popup_state)
+            .catch(() => undefined);
+    });
+
+    browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+        if (!changeInfo.url) return;
+        void sync_popup_state({ ...tab, id: tabId }).catch(() => undefined);
+    });
+
+    browser.windows.onFocusChanged.addListener((windowId) => {
+        if (windowId === browser.windows.WINDOW_ID_NONE) return;
+        void sync_active_popup_state().catch(() => undefined);
+    });
+
+    browser.runtime.onStartup.addListener(() => {
+        void sync_active_popup_state().catch(() => undefined);
+    });
+
+    browser.runtime.onInstalled.addListener(() => {
+        void sync_active_popup_state().catch(() => undefined);
+    });
+}
+
 export default defineBackground(() => {
     void browser.action.setBadgeBackgroundColor({ color: '#1f6feb' });
+    void sync_active_popup_state().catch(() => undefined);
     registerContextMenus();
     handleContextMenuClick();
     handleCommands();
     handleMessages();
+    handle_action_click();
+    handle_popup_state_sync();
 });
