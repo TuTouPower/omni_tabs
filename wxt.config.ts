@@ -3,6 +3,13 @@ import { defineConfig } from 'wxt';
 export default defineConfig({
     srcDir: '.',
     entrypointsDir: 'entrypoints',
+    hooks: {
+        'build:manifestGenerated': (_wxt, manifest) => {
+            if (manifest.action && 'default_popup' in manifest.action) {
+                delete (manifest.action as Record<string, unknown>).default_popup;
+            }
+        },
+    },
     manifest: {
         name: '__MSG_extensionName__',
         description: '__MSG_extensionDescription__',
