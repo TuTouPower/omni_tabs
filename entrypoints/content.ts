@@ -108,6 +108,7 @@ function create_panel(): void {
 
     const next_iframe = document.createElement('iframe');
     next_iframe.src = browser.runtime.getURL('/popup.html');
+    next_iframe.allow = 'clipboard-write';
     next_iframe.style.width = `${String(PANEL_WIDTH)}px`;
     next_iframe.style.height = '0';
     next_iframe.style.maxHeight = `calc(100vh - ${String(PANEL_OFFSET * 2)}px)`;
