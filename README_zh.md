@@ -32,13 +32,22 @@
 
 ## 安装（开发者模式）
 
-OmniTabs 尚未上架 Chrome 应用商店，需要以解压缩方式加载。
+OmniTabs 尚未上架 Chrome 应用商店，可以通过 [GitHub Releases](https://github.com/TuTouPower/omni_tabs/releases) 下载安装，或从源码构建。
 
-### 前置要求
+### 方法一：从 Release 下载（推荐）
+
+1. 前往 [Releases](https://github.com/TuTouPower/omni_tabs/releases) 页面，下载最新版本的 zip 文件：
+   - **Chrome / Edge**：`omnitabs-*-chrome.zip`
+2. 解压下载的 zip 文件，得到一个文件夹（如 `chrome-mv3`）
+3. 打开 `chrome://extensions`（Edge 打开 `edge://extensions`）
+4. 开启**开发者模式**（右上角开关）
+5. 点击**加载已解压的扩展程序**
+6. 选择解压后的文件夹
+7. 工具栏出现 OmniTabs 图标
+
+### 方法二：从源码构建
 
 - [Node.js](https://nodejs.org/) 18+ 和 npm
-
-### 从源码构建
 
 ```bash
 git clone https://github.com/TuTouPower/omni_tabs.git
@@ -47,26 +56,16 @@ npm install
 npm run build
 ```
 
-构建产物位于 `.output/chrome-mv3/`。
+构建产物位于 `.output/chrome-mv3/`，然后按上述步骤 3–7 操作。
 
-### 在 Chrome / Edge 中加载
+### Firefox
 
-1. 打开 `chrome://extensions`（Edge 打开 `edge://extensions`）
-2. 开启**开发者模式**（右上角开关）
-3. 点击**加载已解压的扩展程序**
-4. 选择 `.output/chrome-mv3/` 文件夹
-5. 工具栏出现 OmniTabs 图标
-
-### 在 Firefox 中加载
-
-```bash
-npm run zip:firefox
-```
-
-1. 打开 `about:debugging#/runtime/this-firefox`
-2. 点击**临时载入附加组件**
-3. 选择 `.output/firefox-mv2/manifest.json`
-4. 注意：临时附加组件在 Firefox 关闭后会被移除
+1. 前往 [Releases](https://github.com/TuTouPower/omni_tabs/releases) 页面，下载 `omnitabs-*-firefox.zip`
+2. 解压文件
+3. 打开 `about:debugging#/runtime/this-firefox`
+4. 点击**临时载入附加组件**
+5. 选择解压后文件夹中的 `manifest.json`
+6. 注意：临时附加组件在 Firefox 关闭后会被移除
 
 ## 打包上架
 
