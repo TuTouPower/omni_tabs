@@ -32,13 +32,22 @@ Given two tabs: "GitHub" (`github.com`) and "Google" (`google.com`):
 
 ## Install (Developer Mode)
 
-Since OmniTabs is not yet on the Chrome Web Store, you need to load it as an unpacked extension.
+OmniTabs is not yet on the Chrome Web Store. You can install it by downloading from [GitHub Releases](https://github.com/TuTouPower/omni_tabs/releases) or building from source.
 
-### Prerequisites
+### Method 1: Download from Release (Recommended)
+
+1. Go to [Releases](https://github.com/TuTouPower/omni_tabs/releases) and download the latest zip:
+   - **Chrome / Edge**: `omnitabs-*-chrome.zip`
+2. Unzip the downloaded file — you will get a folder (e.g. `chrome-mv3`)
+3. Open `chrome://extensions` (or `edge://extensions` in Edge)
+4. Enable **Developer mode** (toggle in the top-right corner)
+5. Click **Load unpacked**
+6. Select the unzipped folder
+7. OmniTabs icon appears in the toolbar
+
+### Method 2: Build from Source
 
 - [Node.js](https://nodejs.org/) 18+ and npm
-
-### Build from Source
 
 ```bash
 git clone https://github.com/TuTouPower/omni_tabs.git
@@ -47,26 +56,16 @@ npm install
 npm run build
 ```
 
-The built extension is at `.output/chrome-mv3/`.
+The built extension is at `.output/chrome-mv3/`. Then follow steps 3–7 above.
 
-### Load in Chrome / Edge
+### Firefox
 
-1. Open `chrome://extensions` (or `edge://extensions` in Edge)
-2. Enable **Developer mode** (toggle in the top-right corner)
-3. Click **Load unpacked**
-4. Select the `.output/chrome-mv3/` folder
-5. OmniTabs icon appears in the toolbar
-
-### Load in Firefox
-
-```bash
-npm run zip:firefox
-```
-
-1. Open `about:debugging#/runtime/this-firefox`
-2. Click **Load Temporary Add-on**
-3. Select `.output/firefox-mv2/manifest.json`
-4. Note: temporary add-ons are removed when Firefox closes
+1. Go to [Releases](https://github.com/TuTouPower/omni_tabs/releases) and download `omnitabs-*-firefox.zip`
+2. Unzip the file
+3. Open `about:debugging#/runtime/this-firefox`
+4. Click **Load Temporary Add-on**
+5. Select `manifest.json` from the unzipped folder
+6. Note: temporary add-ons are removed when Firefox closes
 
 ## Package for Store Submission
 
