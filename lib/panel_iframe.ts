@@ -1,15 +1,15 @@
 export const PANEL_WIDTH = 320;
 export const PANEL_OFFSET = 12;
 export const PANEL_Z_INDEX = 2147483647;
-export const PANEL_ATTR = 'tabscopyPanel';
+export const PANEL_ATTR = 'omniTabsPanel';
 
 export interface ResizeMessage {
-    type: 'tabscopy-resize';
+    type: 'omni_tabs-resize';
     height: number;
 }
 
 export interface CloseMessage {
-    type: 'tabscopy-close';
+    type: 'omni_tabs-close';
 }
 
 export type PanelMessage = ResizeMessage | CloseMessage;
@@ -22,8 +22,8 @@ export function is_panel_message(data: unknown): data is PanelMessage {
     if (!data || typeof data !== 'object') return false;
 
     const message = data as { type?: unknown; height?: unknown };
-    if (message.type === 'tabscopy-close') return true;
-    return message.type === 'tabscopy-resize' && typeof message.height === 'number';
+    if (message.type === 'omni_tabs-close') return true;
+    return message.type === 'omni_tabs-resize' && typeof message.height === 'number';
 }
 
 export interface PanelConfig {

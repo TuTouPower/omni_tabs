@@ -16,7 +16,7 @@ function mock_deps(overrides: Partial<PanelMessagingDeps> = {}): PanelMessagingD
     };
 }
 
-const message: TogglePanelMessage = { type: 'tabscopy-toggle-panel' };
+const message: TogglePanelMessage = { type: 'omni_tabs-toggle-panel' };
 
 describe('send_toggle_panel_message', () => {
     it('does not inject script when sendMessage succeeds', async () => {

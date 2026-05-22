@@ -59,7 +59,7 @@ function attach_message_listener(): void {
         )
             return;
 
-        if (event.data.type === 'tabscopy-close') {
+        if (event.data.type === 'omni_tabs-close') {
             remove_panel();
             return;
         }
@@ -77,7 +77,7 @@ function create_panel(): void {
     if (panel) return;
 
     const next_panel = document.createElement('div');
-    next_panel.dataset.tabscopyPanel = 'true';
+    next_panel.dataset.omniTabsPanel = 'true';
     next_panel.style.position = 'fixed';
     next_panel.style.top = `${String(PANEL_OFFSET)}px`;
     next_panel.style.right = `${String(PANEL_OFFSET)}px`;
@@ -111,11 +111,11 @@ function is_extension_sender(sender: Browser.runtime.MessageSender): boolean {
     return sender.id === browser.runtime.id;
 }
 
-function is_toggle_panel_message(data: unknown): data is { type: 'tabscopy-toggle-panel' } {
+function is_toggle_panel_message(data: unknown): data is { type: 'omni_tabs-toggle-panel' } {
     return Boolean(
         data &&
             typeof data === 'object' &&
-            (data as { type?: unknown }).type === 'tabscopy-toggle-panel',
+            (data as { type?: unknown }).type === 'omni_tabs-toggle-panel',
     );
 }
 

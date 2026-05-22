@@ -1,4 +1,4 @@
-# TabsCopy 测试计划
+# OmniTabs 测试计划
 
 ## 目标
 
@@ -87,11 +87,11 @@ npm test
 
 - iframe `src` 指向 `/popup.html`
 - iframe `allow` 包含 `clipboard-write`
-- wrapper 带 `data-tabscopy-panel`
+- wrapper 带 `data-omni-tabs-panel`
 - wrapper 使用固定定位和高 `z-index`
 - iframe 高度被 clamp 到视口范围内
-- `tabscopy-resize` 只接受来自 iframe 的消息
-- `tabscopy-close` 可关闭 panel
+- `omni_tabs-resize` 只接受来自 iframe 的消息
+- `omni_tabs-close` 可关闭 panel
 - 未知 message type 被忽略
 
 ---
@@ -218,8 +218,8 @@ npm run test:e2e
 2. 打开本地普通网页，例如临时 HTML server。
 3. 触发扩展 action。
 4. 断言页面 DOM 出现：
-   - `[data-tabscopy-panel]`
-   - `[data-tabscopy-panel] iframe`
+   - `[data-omni-tabs-panel]`
+   - `[data-omni-tabs-panel] iframe`
 5. 断言 iframe：
    - `src` 包含 `popup.html`
    - `allow` 包含 `clipboard-write`
@@ -284,7 +284,7 @@ npm run test:e2e
 
 通过标准：
 
-- 受限页不出现 `[data-tabscopy-panel]`
+- 受限页不出现 `[data-omni-tabs-panel]`
 - 原生 popup 可用
 
 ---

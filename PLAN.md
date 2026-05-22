@@ -1,8 +1,8 @@
-# TabsCopy 严格代码质量检查实施计划
+# OmniTabs 严格代码质量检查实施计划
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 给 TabsCopy 增加提交、合并、发布前会失败拦截的严格代码质量门禁。
+**Goal:** 给 OmniTabs 增加提交、合并、发布前会失败拦截的严格代码质量门禁。
 
 **Architecture:** 先补本地脚本和 TypeScript 严格配置，再加 lint/format/deadcode/security/coverage，最后用 CI 统一执行同一组命令。保持小项目简单，不引入 Plankton 全量 hook 系统；如后续需要写时自动修复，再单独接 Plankton。
 

@@ -30,21 +30,21 @@ describe('clamp_height', () => {
 
 describe('is_panel_message', () => {
     it('accepts resize message with valid height', () => {
-        const msg: PanelMessage = { type: 'tabscopy-resize', height: 300 };
+        const msg: PanelMessage = { type: 'omni_tabs-resize', height: 300 };
         expect(is_panel_message(msg)).toBe(true);
     });
 
     it('accepts close message', () => {
-        const msg: PanelMessage = { type: 'tabscopy-close' };
+        const msg: PanelMessage = { type: 'omni_tabs-close' };
         expect(is_panel_message(msg)).toBe(true);
     });
 
     it('rejects resize message without height', () => {
-        expect(is_panel_message({ type: 'tabscopy-resize' })).toBe(false);
+        expect(is_panel_message({ type: 'omni_tabs-resize' })).toBe(false);
     });
 
     it('rejects resize message with non-number height', () => {
-        expect(is_panel_message({ type: 'tabscopy-resize', height: '300' })).toBe(false);
+        expect(is_panel_message({ type: 'omni_tabs-resize', height: '300' })).toBe(false);
     });
 
     it('rejects unknown message type', () => {
@@ -75,7 +75,7 @@ describe('get_panel_config', () => {
         expect(config.allow_attr).toContain('clipboard-write');
     });
 
-    it('dataset attribute is tabscopyPanel', () => {
+    it('dataset attribute is omniTabsPanel', () => {
         const config = get_panel_config(mock_get_url);
         expect(config.dataset_attr).toBe(PANEL_ATTR);
     });

@@ -50,5 +50,12 @@ export default defineConfig({
                 '128': 'icon-128.png',
             },
         },
+        browser_specific_settings: {
+            gecko: {
+                data_collection_permissions: {
+                    required: ['none'],
+                },
+            },
+        },
     },
 });

@@ -1,4 +1,4 @@
-# TabsCopy — 扩展规格
+# OmniTabs — 扩展规格
 
 Chrome/Edge/Firefox 浏览器扩展，将标签页信息以多种格式复制到剪贴板。
 
@@ -50,7 +50,7 @@ Pinned 标签页可选包含。
 
 ### 1. 右键菜单
 
-3 级嵌套: TabsCopy → 格式 (9种) → 范围 (6种)。菜单 ID 格式 `tabscopy_{format}_{scope}`。
+3 级嵌套: OmniTabs → 格式 (9种) → 范围 (6种)。菜单 ID 格式 `omni_tabs_{format}_{scope}`。
 
 ### 2. 快捷键
 
@@ -82,9 +82,9 @@ background.ts (Service Worker)
 └── Popup 状态同步 (标签页切换/URL 变化/窗口切换)
 
 content.ts (Content Script)
-├── 监听 tabscopy-toggle-panel 消息
+├── 监听 omni_tabs-toggle-panel 消息
 ├── 创建/移除 iframe 面板
-├── 监听 tabscopy-resize (动态高度) / tabscopy-close
+├── 监听 omni_tabs-resize (动态高度) / omni_tabs-close
 └── 点击外部 / Escape 关闭
 
 popup/main.ts
@@ -130,7 +130,7 @@ lib/
 
 ## 持久化
 
-- `tabscopy_settings` (sync): { defaultFormat, defaultScope, includePinned }
+- `omni_tabs_settings` (sync): { defaultFormat, defaultScope, includePinned }
 - `themeMode` (sync): 'system' | 'light' | 'dark'
 
 ## i18n
