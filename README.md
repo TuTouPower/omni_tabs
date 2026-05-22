@@ -1,4 +1,6 @@
-# TabsCopy
+[English](README.md) | [中文](README_zh.md)
+
+# OmniTabs
 
 A browser extension that copies tab information to the clipboard in various formats. Supports Chrome, Edge, and Firefox.
 
@@ -30,7 +32,7 @@ Given two tabs: "GitHub" (`github.com`) and "Google" (`google.com`):
 
 ## Install (Developer Mode)
 
-Since TabsCopy is not yet on the Chrome Web Store, you need to load it as an unpacked extension.
+Since OmniTabs is not yet on the Chrome Web Store, you need to load it as an unpacked extension.
 
 ### Prerequisites
 
@@ -39,8 +41,8 @@ Since TabsCopy is not yet on the Chrome Web Store, you need to load it as an unp
 ### Build from Source
 
 ```bash
-git clone <repo-url> tabs_copy
-cd tabs_copy
+git clone https://github.com/TuTouPower/omni_tabs.git
+cd omni_tabs
 npm install
 npm run build
 ```
@@ -53,12 +55,12 @@ The built extension is at `.output/chrome-mv3/`.
 2. Enable **Developer mode** (toggle in the top-right corner)
 3. Click **Load unpacked**
 4. Select the `.output/chrome-mv3/` folder
-5. TabsCopy icon appears in the toolbar
+5. OmniTabs icon appears in the toolbar
 
 ### Load in Firefox
 
 ```bash
-npm run build:firefox
+npm run zip:firefox
 ```
 
 1. Open `about:debugging#/runtime/this-firefox`
@@ -66,12 +68,19 @@ npm run build:firefox
 3. Select `.output/firefox-mv2/manifest.json`
 4. Note: temporary add-ons are removed when Firefox closes
 
+## Package for Store Submission
+
+```bash
+npm run zip           # Chrome → .output/omnitabs-{version}-chrome.zip
+npm run zip:firefox   # Firefox → .output/omnitabs-{version}-firefox.zip + sources.zip
+```
+
 ## Usage
 
 ### Context Menu
 
 1. Right-click on any web page
-2. Hover over **TabsCopy**
+2. Hover over **OmniTabs**
 3. Select a format, then a scope
 4. Tab info is copied to clipboard
 
@@ -87,7 +96,7 @@ To customize shortcuts: go to `chrome://extensions/shortcuts`.
 
 ### Popup
 
-Click the TabsCopy icon in the toolbar to:
+Click the OmniTabs icon in the toolbar to:
 - Change default format and scope
 - Toggle "Include pinned tabs"
 - Click **Copy Now** to copy with current settings
@@ -112,4 +121,4 @@ npm run build        # production build
 
 ## License
 
-ISC
+MIT
