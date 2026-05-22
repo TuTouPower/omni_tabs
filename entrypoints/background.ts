@@ -74,18 +74,18 @@ function registerContextMenus(): void {
     browser.contextMenus.removeAll(() => {
         // Root menu
         browser.contextMenus.create({
-            id: 'tabscopy',
-            title: browser.i18n.getMessage('menuRootLabel') || 'TabsCopy',
+            id: 'omni_tabs',
+            title: browser.i18n.getMessage('menuRootLabel') || 'OmniTabs',
             contexts: ['page'],
         });
 
         // Format level (2nd level)
         for (const format of FORMATS) {
-            const formatId = `tabscopy_${format}`;
+            const formatId = `omni_tabs_${format}`;
             browser.contextMenus.create({
                 id: formatId,
                 title: getFormatLabel(format),
-                parentId: 'tabscopy',
+                parentId: 'omni_tabs',
                 contexts: ['page'],
             });
 
@@ -160,7 +160,7 @@ function handle_action_click(): void {
 
             if (is_restricted_url(tab.url) || tab.id === undefined) return;
 
-            const message: TogglePanelMessage = { type: 'tabscopy-toggle-panel' };
+            const message: TogglePanelMessage = { type: 'omni_tabs-toggle-panel' };
             await send_toggle_panel_message(panel_deps, tab.id, message);
         })().catch(() => {
             void notify_panel_failure(panel_deps);

@@ -71,10 +71,10 @@ export function getScopeLabel(scope: Scope): string {
     return browser.i18n.getMessage(`scope_${scope}`) || SCOPE_LABELS[scope];
 }
 
-/** Parse a 3rd-level menu ID like "tabscopy_markdown_current" into format + scope. */
+/** Parse a 3rd-level menu ID like "omni_tabs_markdown_current" into format + scope. */
 export function parseMenuId(id: string): { format: Format; scope: Scope } | null {
-    if (!id.startsWith('tabscopy_')) return null;
-    const rest = id.slice('tabscopy_'.length);
+    if (!id.startsWith('omni_tabs_')) return null;
+    const rest = id.slice('omni_tabs_'.length);
 
     for (const scope of SCOPES) {
         if (rest.endsWith(`_${scope}`)) {
@@ -89,5 +89,5 @@ export function parseMenuId(id: string): { format: Format; scope: Scope } | null
 
 /** Build a 3rd-level menu ID from format and scope. */
 export function buildMenuId(format: Format, scope: Scope): string {
-    return `tabscopy_${format}_${scope}`;
+    return `omni_tabs_${format}_${scope}`;
 }

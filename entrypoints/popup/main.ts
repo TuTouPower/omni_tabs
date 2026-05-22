@@ -21,12 +21,12 @@ const THEME_CYCLE: ThemeMode[] = ['system', 'light', 'dark'];
 let currentSettings: Settings = { ...DEFAULT_SETTINGS };
 
 interface EmbeddedResizeMessage {
-    type: 'tabscopy-resize';
+    type: 'omni_tabs-resize';
     height: number;
 }
 
 interface EmbeddedCloseMessage {
-    type: 'tabscopy-close';
+    type: 'omni_tabs-close';
 }
 
 function is_embedded_popup(): boolean {
@@ -45,7 +45,7 @@ function setup_embedded_mode(): void {
         animation_frame = requestAnimationFrame(() => {
             animation_frame = 0;
             const message: EmbeddedResizeMessage = {
-                type: 'tabscopy-resize',
+                type: 'omni_tabs-resize',
                 height: document.body.scrollHeight,
             };
             window.parent.postMessage(message, '*');
@@ -59,7 +59,7 @@ function setup_embedded_mode(): void {
     document.addEventListener('keydown', (event) => {
         if (event.key !== 'Escape') return;
 
-        const message: EmbeddedCloseMessage = { type: 'tabscopy-close' };
+        const message: EmbeddedCloseMessage = { type: 'omni_tabs-close' };
         window.parent.postMessage(message, '*');
     });
 }
@@ -200,7 +200,7 @@ async function handleCopy(): Promise<void> {
 
 function renderFormatChips(): void {
     const container = getElement('format-chips');
-    container.innerHTML = '';
+    container.replaceChildren();
 
     for (const format of FORMATS) {
         const chip = document.createElement('span');
@@ -217,7 +217,7 @@ function renderFormatChips(): void {
 
 function renderScopeSelect(): void {
     const select = getElement('scope-select') as HTMLSelectElement;
-    select.innerHTML = '';
+    select.replaceChildren();
 
     for (const scope of SCOPES) {
         const option = document.createElement('option');
@@ -245,12 +245,16 @@ function renderPinnedToggle(): void {
 
 function renderShortcuts(): void {
     const list = getElement('shortcuts-list');
-    list.innerHTML = '';
+    list.replaceChildren();
 
     for (const s of SHORTCUTS) {
         const row = document.createElement('div');
         row.className = 'shortcut-row';
-        row.innerHTML = `<span>${browser.i18n.getMessage(s.labelKey) || s.labelKey}</span><kbd>${s.defaultKey}</kbd>`;
+        const label = document.createElement('span');
+        label.textContent = browser.i18n.getMessage(s.labelKey) || s.labelKey;
+        const kbd = document.createElement('kbd');
+        kbd.textContent = s.defaultKey;
+        row.append(label, kbd);
         list.appendChild(row);
     }
 }

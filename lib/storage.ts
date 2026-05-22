@@ -1,7 +1,7 @@
 import type { Format, Scope, Settings } from './types';
 import { DEFAULT_SETTINGS } from './types';
 
-const STORAGE_KEY = 'tabscopy_settings';
+const STORAGE_KEY = 'omni_tabs_settings';
 
 export async function loadSettings(): Promise<Settings> {
     const result = await browser.storage.sync.get(STORAGE_KEY);

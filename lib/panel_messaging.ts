@@ -1,5 +1,5 @@
 export interface TogglePanelMessage {
-    type: 'tabscopy-toggle-panel';
+    type: 'omni_tabs-toggle-panel';
 }
 
 export interface PanelMessagingDeps {

@@ -1,12 +1,12 @@
 {
     "extensionName": {
-        "message": "TabsCopy"
+        "message": "OmniTabs"
     },
     "extensionDescription": {
         "message": "Copy tab information to clipboard in various formats"
     },
     "menuRootLabel": {
-        "message": "TabsCopy"
+        "message": "OmniTabs"
     },
     "fmt_url": {
         "message": "URL"

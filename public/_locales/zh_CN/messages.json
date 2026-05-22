@@ -1,12 +1,12 @@
 {
     "extensionName": {
-        "message": "TabsCopy"
+        "message": "OmniTabs"
     },
     "extensionDescription": {
         "message": "以多种格式复制标签页信息到剪贴板"
     },
     "menuRootLabel": {
-        "message": "TabsCopy"
+        "message": "OmniTabs"
     },
     "fmt_url": {
         "message": "URL"

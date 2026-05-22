@@ -53,7 +53,7 @@ async function toggle_panel_via_service_worker(context: BrowserContext): Promise
     await worker.evaluate(async () => {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         if (tab?.id !== undefined) {
-            await chrome.tabs.sendMessage(tab.id, { type: 'tabscopy-toggle-panel' });
+            await chrome.tabs.sendMessage(tab.id, { type: 'omni_tabs-toggle-panel' });
         }
     });
 }
@@ -70,7 +70,7 @@ test.describe('rounded popup smoke', () => {
 
             await toggle_panel_via_service_worker(context);
 
-            const panel = page.locator('[data-tabscopy-panel]');
+            const panel = page.locator('[data-omni-tabs-panel]');
             await expect(panel).toBeVisible({ timeout: 5000 });
 
             const iframe = panel.locator('iframe');
@@ -99,7 +99,7 @@ test.describe('rounded popup smoke', () => {
 
             await toggle_panel_via_service_worker(context);
 
-            const panel = page.locator('[data-tabscopy-panel]');
+            const panel = page.locator('[data-omni-tabs-panel]');
             await expect(panel).toBeVisible({ timeout: 5000 });
 
             const iframe = panel.locator('iframe');
@@ -129,7 +129,7 @@ test.describe('rounded popup smoke', () => {
             await page.waitForLoadState('domcontentloaded');
 
             await toggle_panel_via_service_worker(context);
-            const panel = page.locator('[data-tabscopy-panel]');
+            const panel = page.locator('[data-omni-tabs-panel]');
             await expect(panel).toBeVisible({ timeout: 5000 });
 
             await page.keyboard.press('Escape');
@@ -153,7 +153,7 @@ test.describe('rounded popup smoke', () => {
             await page.goto('chrome://extensions');
             await page.waitForLoadState('domcontentloaded');
 
-            const panel = page.locator('[data-tabscopy-panel]');
+            const panel = page.locator('[data-omni-tabs-panel]');
             await expect(panel).not.toBeAttached({ timeout: 2000 });
         } finally {
             await context.close();
