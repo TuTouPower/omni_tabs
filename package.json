@@ -1,6 +1,6 @@
 {
     "name": "omni_tabs",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Copy tab information to clipboard in various formats",
     "private": true,
     "scripts": {
