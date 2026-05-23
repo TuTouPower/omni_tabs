@@ -20,6 +20,19 @@ npx wxt zip -b firefox   # Firefox → .output/omnitabs-x.x.x-firefox.zip
 
 Edge 和 Chrome 共用 MV3，上传同一份 chrome-mv3 即可。
 
+### 发布 Release
+
+发布 GitHub Release 时必须同时上传 Chrome 和 Firefox 两个 zip，Edge 用户使用 Chrome 包，在 release notes 中注明。
+
+```bash
+npx wxt zip -b chrome -b firefox
+gh release create v{x.x.x} \
+  .output/omnitabs-{version}-chrome.zip \
+  .output/omnitabs-{version}-firefox.zip \
+  --title "v{x.x.x}" \
+  --notes "Edge uses the Chrome zip."
+```
+
 ## 项目结构
 
 ```
